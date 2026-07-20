@@ -1,0 +1,10 @@
+# ubuntu
+git
+python3
+
+# python
+pandas
+os
+
+
+

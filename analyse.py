@@ -1,50 +1,45 @@
-import pandas
-from datetime import datetime as dt
-import numpy as np
-import logging as log
+import os
+import pandas as pd
 
-today = dt.strftime(dt.today(), '%Y-%m-%d')
-df = pandas.read_csv(f'./data/raw/alphavprices_{today}.csv')
+# pandas formatting
+pd.set_option("display.max_columns", None)
+pd.options.display.float_format = '{:.2f}'.format
 
-df = df[:10]
+# file grab
+rawfile = os.environ["RAWFILE"]
+df = pd.read_csv(rawfile)
+
+# 10 days worth of data only
+df = df.head(10).sort_values("timestamp")
+
+# create diff cols
 l = df['close'].to_list()
+diffs = [l[i+1]-l[i] for i in range(len(l)-1)]
+diffs_pct = [((l[i+1] - l[i]) / l[i])*100 for i in range(len(l)-1)]
+df["daily diffs"] = [0] + diffs
+df["daily %age diffs"] = [0] + diffs_pct
 
-diffs = [0] + [l[i+1]-l[i] for i in range(len(l)-1)]
-diffs_pct = [0] + [(l[i+1]/l[i]-1)*100 for i in range(len(l)-1)]
-
-df.insert(6, "daily diffs", diffs)
-df.insert(7, "daily %age diffs", diffs_pct)
-
-#avgclose = np.mean(l)
-#hiclose = max(l)
-#loclose = min(l)
-#avgdd = np.mean(diffs)
-#avgdpd = np.mean(diffs_pct)
-#maxgain = diffs_pct.max()
-#maxloss = diffs_pct.min()
-#avgvol = np.mean(df['volume']
-
-summary = {'average close': np.mean(l),
+# create summary table
+summary = {'average close': df["close"].mean(),
 'highest close': max(l),
 'lowest close': min(l),
-'avg daily diff': np.mean(diffs[1:]),
-'avg daily %age diff': np.mean(diffs_pct[1:]),
-'max gain': max(diffs_pct[1:]),
-'max loss': min(diffs_pct[1:]),
-'avg volume': np.mean(df['volume'])}
+'avg daily diff': df["daily diffs"].mean(),
+'avg daily %age diff': df["daily %age diffs"].mean(),
+'max gain': max(diffs_pct),
+'max loss': min(diffs_pct),
+'avg volume': df["volume"].mean()}
 
-summary_df = pandas.DataFrame.from_dict(summary, orient="index", columns=["Value"])
+summary_df = pd.DataFrame.from_dict(summary, orient="index", columns=["Value"])
 
-title = "\n*** T-10 Day Summary ***\n"
+# return and save results
+symbol = os.environ["SYMBOL"]
+title = f"\n*** T-10 Day Summary: {symbol} ***\n"
 
 print(title)
-log.info(title)
-
 print(df,'\n')
-log.info(df)
-
 print(summary_df,'\n')
-log.info(summary_df)
 
-summary_df.to_csv(f"./data/processed/summary_{today}.csv")
-log.info("Saved summary to csv")
+processed_path = os.environ["PROCESSEDFILE"]
+summary_df.to_csv(processed_path)
+
+
