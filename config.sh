@@ -1,5 +1,4 @@
 DATE=$(date +%Y-%m-%d)
-
 LOGFILE="logs/monitor_${DATE}.log"
 export RAWFILE="data/raw/alphavprices_${DATE}.csv"
 export PROCESSEDFILE="data/processed/summary_${DATE}.csv"
