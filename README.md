@@ -31,7 +31,7 @@ Personal project exploring Linux workflows by building a market monitoring tool 
   - percentage movements
   - volume statistics
 - Implemented separation of configuration and application logic:
-  - Senstivie API credentials stored separately using environment variables and excluded from version control
+  - senstivie API credentials stored separately using environment variables and excluded from version control
   - runtime settings managed through configuration files
 - Used Git throughout development, including:
   - commits and version tracking
