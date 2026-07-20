@@ -1,0 +1,4 @@
+- a few symbol options, commented out
+- fix summary dp
+- dotenv, import symbol into py
+- mention git learnings in readme

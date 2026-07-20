@@ -3,6 +3,7 @@
 source config.sh
 
 echo $(date)" **** Market monitor started **** " >> $LOGFILE
+echo "" >> $LOGFILE
 
 if wget -O data/raw/alphavprices_$DATE.csv --append-output="$LOGFILE" $URL1; then
     echo $(date)" **** Using primary API key **** " >> $LOGFILE
@@ -21,4 +22,8 @@ echo $(date)" **** Data downloaded successfully **** " >> $LOGFILE
 python3 analyse.py >> $LOGFILE 2>&1
 
 echo $(date)" **** Analysis complete **** " >> $LOGFILE
+
+echo "" >> $LOGFILE
+echo "############################################################" >> $LOGFILE
+echo "" >> $LOGFILE
 
