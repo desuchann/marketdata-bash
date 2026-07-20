@@ -19,9 +19,9 @@ Personal project exploring Linux workflows by building a market monitoring tool 
 ## 🚀 Project Journey
 
 - Provisioned a Linux development environment through virtualisation:
-  - Created an Ubuntu virtual machine
-  - Configured the operating system and development tooling
-  - Installed required packages and Python dependencies
+  - created an Ubuntu virtual machine
+  - configured the operating system and development tooling
+  - installed required packages and Python dependencies
 - Built a Bash orchestration script to manage the workflow, including:
   - API data retrieval
   - file validation
